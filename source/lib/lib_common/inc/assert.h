@@ -33,7 +33,7 @@
 	#define todo_warn(s)
 #else
 	#define assert(v, s)
-	#define assert_ctx(v)
+	#define assert_ctx(v) v
 	#define assert_crash(v, s) if (!(v)) { do { _crash(); } while (true); }
 	#define todo(s)  static_assert(0, s)
 	#define todo_warn(s)

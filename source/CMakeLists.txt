@@ -7,8 +7,8 @@ add_subdirectory(lib/lib_game)
 add_subdirectory(lib/lib_net)
 
 # Applications
-add_subdirectory(app/client-headless)
-add_subdirectory(app/server)
+add_subdirectory(app/app_client_headless)
+add_subdirectory(app/app_server)
 
 # Settings
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT server)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT app_server)
