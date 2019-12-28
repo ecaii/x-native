@@ -39,7 +39,7 @@ void GameConsole::Pause()
 	// Do not pause if a kill signal is processed, kill means KILL >:(
 	if (!HasKillSignal())
 	{
-		DbgLog("Press any key to continue ...");
+		DbgLog("Press ENTER to continue ...");
 		getchar();
 	}
 }
