@@ -13,6 +13,9 @@ set(lib_game_headers
 	"inc/gamehighrestimer"
 	"inc/gamejobsystem"
 	"inc/gamesettings"
+	"inc/gameidb"
+	"inc/gameidbprefix"
+	"inc/gameidbgenerated"
 )
 
 set(lib_game_sources
@@ -22,6 +25,7 @@ set(lib_game_sources
 	"src/gamehighrestimer"
 	"src/gamejobsystem"
 	"src/gamesettings"
+	"src/gameidb"
 )
 
 add_library(lib_game "${lib_game_sources}" "${lib_game_headers}")
