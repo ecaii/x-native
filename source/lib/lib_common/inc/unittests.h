@@ -24,7 +24,7 @@ namespace shared
 class UnitTestable
 {
 public:
-	void SetIsInUnitTest(bool v) { m_bIsInUnitTest = true; }
+	void SetIsInUnitTest(bool v) { m_bIsInUnitTest = v; }
 	bool IsInUnitTest() const { return m_bIsInUnitTest; }
 
 private:

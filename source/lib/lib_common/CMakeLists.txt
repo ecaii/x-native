@@ -7,14 +7,12 @@ set(lib_common_headers
 	"inc/maths"
 	"inc/constants"
 	"inc/logging"
-	"inc/libdummy"
 	"inc/unittests"
 	"inc/profiletimer"
 )
 
 set(lib_common_sources
 	"src/logging"
-	"src/libdummy"
 	"src/unittests"
 	"src/profiletimer"
 )

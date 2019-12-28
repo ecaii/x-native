@@ -129,6 +129,9 @@ TESTABLE_DEFINE(NetworkSynchronisation, {
 
 void NetworkSynchronisation::WriteBits(const char* buffer, uint32_t size, uint32_t bits)
 {
+	(void)size;
+	todo("should size be read?");
+
 	for (uint32_t bit = 0; bit < bits; ++bit)
 	{
 		const uint32_t cursorLo = GetByteCursorLo();
@@ -154,6 +157,9 @@ void NetworkSynchronisation::WriteBits(const char* buffer, uint32_t size, uint32
 
 void NetworkSynchronisation::ReadBits(char* buffer, uint32_t size, uint32_t bits)
 {
+	(void)size;
+	todo("should size be read?");
+
 	for (uint32_t bit = 0; bit < bits; ++bit)
 	{
 		const uint32_t cursorLo = GetByteCursorLo();

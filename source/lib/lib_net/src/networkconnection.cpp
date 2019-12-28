@@ -18,7 +18,8 @@ void NetworkConnection::DisconnectSocket()
 
 void NetworkConnection::EstablishSocket(const char* hostname, uint16_t port)
 {
-
+	(void)hostname;
+	(void)port;
 }
 
 void NetworkConnection::UseSocket(void*)

@@ -64,11 +64,11 @@ int main(int argc, char** argv)
 	GameConsole console(consoleConfig);
 
 #if _DEBUG
-	console.RegisterArgument(shared::CompilerHashU8("-test"), [](int argc, int argi, char** argv)
+	console.RegisterArgument(shared::CompilerHashU8("-test"), [](int, int, char**)
 	{
 	});
 #endif
-	console.RegisterArgument(shared::CompilerHashU8("-run_once"), [](int argc, int argi, char** argv)
+	console.RegisterArgument(shared::CompilerHashU8("-run_once"), [](int, int, char**)
 	{
 		g_ServerProcRunOnce = true;
 	});
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 	const size_t   bind_peermax = settings.Get("Network", "MaxPeers")->GetNumericAs<size_t>();
 
 	// Accept any hostname if asterisk is passed.
-	if (bind_hostname == "*")
+	if (strlen(bind_hostname) == 0 || bind_hostname[0] == '*')
 		bind_hostname = nullptr;
 
 	DbgLog("Server listening at %s:%d (max %d players)", bind_hostname, bind_port, bind_peermax);

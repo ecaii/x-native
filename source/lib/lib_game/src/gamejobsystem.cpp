@@ -10,11 +10,13 @@ GameJobSystem& GameJobSystem::GetInstance()
 
 void GameJobSystem::Start(const shared::CompilerHashU8& name)
 {
+	(void)name;
 	todo("not implemented, no jobbing");
 }
 
 void GameJobSystem::Execute(const JobClosure& closure)
 {
+	(void)closure;
 	todo("not implemented, no jobbing");
 }
 

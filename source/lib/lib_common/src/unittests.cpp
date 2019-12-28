@@ -3,7 +3,7 @@
 #include "logging.h"
 
 #if _DEBUG
-shared::UnitTests::TestPair shared::UnitTests::ms_Tests[MAX_UNIT_TESTS];
+shared::UnitTests::TestPair shared::UnitTests::ms_Tests[MAX_UNIT_TESTS] = {};
 uint32_t                    shared::UnitTests::ms_NumTests = 0;
 
 void shared::UnitTests::RegisterUnitTest(UnitTestName name, UnitTest test)

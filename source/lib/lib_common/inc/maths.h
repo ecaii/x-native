@@ -72,20 +72,20 @@ namespace shared
 
 		// We don't have a 'highest bit' for floats, it is split across two sections
 		template <>
-		__forceinline uint32_t highestBit<float>(float v)
+		__forceinline uint32_t highestBit<float>(float)
 		{
 			return sizeof(float) * 8;
 		}
 
 		template <>
-		__forceinline uint32_t highestBit<double>(double v)
+		__forceinline uint32_t highestBit<double>(double)
 		{
 			return sizeof(double) * 8;
 		}
 
 		// We know bools only have one state, return just the one
 		template <>
-		__forceinline uint32_t highestBit<bool>(bool v)
+		__forceinline uint32_t highestBit<bool>(bool)
 		{
 			return 1;
 		}

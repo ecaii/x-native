@@ -50,13 +50,13 @@ void NetworkManager::Synchronise()
 	// For every bit, check if we need to create or delete the index
 
 	// Synchronise all objects to all connections
-	for (auto&& element : m_aConnections)
+	for (auto&& conpair : m_aConnections)
 	{
-		NetworkConnection* connection = element.second.get();
+		NetworkConnection* connection = conpair.second.get();
 
-		for (auto&& element : m_aObjects)
+		for (auto&& netpair : m_aObjects)
 		{
-			NetworkObject* object = element.second.get();
+			NetworkObject* object = netpair.second.get();
 			if (object->ShouldSynchronise(*connection))
 			{
 				object->Synchronise(sync);
