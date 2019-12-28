@@ -2,14 +2,14 @@
 #include <inttypes.h>
 #include <utility>
 
-#if NETWORK_RUN_UNIT_TESTS
+#if _DEBUG
 #define TESTABLE_OBJECT(Type)\
 		static bool UnitTest(); \
 		static const char* UnitTestName() { return #Type; } \
 
 #define TESTABLE_DEFINE(t, f) bool t ##::UnitTest() ##f
-#define TESTABLE_REGISTER(t) UnitTests::RegisterUnitTest(t::UnitTestName, t::UnitTest)
-#define TESTABLE_RUN_ALL() UnitTests::RunUnitTests()
+#define TESTABLE_REGISTER(t) shared::UnitTests::RegisterUnitTest(t::UnitTestName, t::UnitTest)
+#define TESTABLE_RUN_ALL() shared::UnitTests::RunUnitTests()
 #else
 #define TESTABLE_OBJECT(t)
 #define TESTABLE_DEFINE(t, f)

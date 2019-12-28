@@ -1,3 +1,5 @@
+#define NETWORK_RUN_UNIT_TESTS 1
+
 #include "unittests.h"
 #include "networksynchronisation.h"
 #include "networkmanagerdedicatedserver.h"
