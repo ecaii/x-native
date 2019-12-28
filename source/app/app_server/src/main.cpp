@@ -16,11 +16,11 @@ GameSettings::List g_ServerSettings =
 	{ "Network",   "MaxPeers", 32 },
 
 	// Personalisation
-	{ "Server",   "DisplayName",  "NVMP Server 10.0.0" },
-	{ "Server",   "Hostname",     "localhost" },
+	{ "Server",   "DisplayName",     "NVMPX Default Server" },
+	{ "Server",   "Hostname",        "localhost" },
 
-	// Lua configuration
-	{ "LuaEngine",     "InitScript",       "init.lua" }
+	// SDK configuration
+	{ "SDK",     "InitScript", "init.lua" }
 };
 
 bool g_ServerProcRunOnce = false;
