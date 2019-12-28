@@ -3,6 +3,7 @@ project(XNativeMain)
 
 # Libraries
 add_subdirectory(lib/lib_common)
+add_subdirectory(lib/lib_game)
 
 # Applications
 add_subdirectory(app/client-headless)
