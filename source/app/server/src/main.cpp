@@ -1,9 +1,6 @@
-#include "shared\inc\libdummy.h"
-#include <stdio.h>
+#include "assert.h"
+
 int main()
 {
-	CLibDummy dummy;
-
-	getchar();
 	return 0;
 }

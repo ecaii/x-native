@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(XNativeMain)
 
 # Libraries
-add_subdirectory(lib/shared)
+add_subdirectory(lib/lib_common)
 
 # Applications
 add_subdirectory(app/client-headless)
