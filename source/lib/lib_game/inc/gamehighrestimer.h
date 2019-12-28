@@ -1,11 +1,8 @@
 #pragma once
 
-namespace shared
+class GameHighResTimer
 {
-	class GameHighResTimer
-	{
-	public:
-		static double  GetElapsed();
-		static void    Reset();
-	};
-}
+public:
+	static double  GetElapsed();
+	static void    Reset();
+};

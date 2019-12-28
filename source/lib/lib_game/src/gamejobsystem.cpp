@@ -1,28 +1,29 @@
 #include "gamejobsystem.h"
 #include "logging.h"
+#include "assert.h"
 
-shared::GameJobSystem& shared::GameJobSystem::GetInstance()
+GameJobSystem& GameJobSystem::GetInstance()
 {
-	static shared::GameJobSystem s_Instance;
+	static GameJobSystem s_Instance;
 	return s_Instance;
 }
 
-void shared::GameJobSystem::Start(const CompilerHashU8& name)
+void GameJobSystem::Start(const shared::CompilerHashU8& name)
 {
-	DbgWarn("not implemented!");
+	todo("not implemented, no jobbing");
 }
 
-void shared::GameJobSystem::Execute(const JobClosure& closure)
+void GameJobSystem::Execute(const JobClosure& closure)
 {
-	DbgWarn("not implemented!");
+	todo("not implemented, no jobbing");
 }
 
-bool shared::GameJobSystem::IsBusy()
+bool GameJobSystem::IsBusy()
 {
 	return false;
 }
 
-void shared::GameJobSystem::Wait()
+void GameJobSystem::Wait()
 {
-	DbgWarn("not implemented!");
+	todo("not implemented, no jobbing");
 }

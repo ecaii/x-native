@@ -1,7 +1,7 @@
 #include "gamesettings.h"
 #include <unordered_map>
 
-shared::GameSettings::FileSetting::FileSetting(
+GameSettings::FileSetting::FileSetting(
 	const char* psGroup, const char* psName, float fValue
 ) :
 	m_Group(psGroup),
@@ -11,7 +11,7 @@ shared::GameSettings::FileSetting::FileSetting(
 	m_ValueFloat = fValue;
 }
 
-shared::GameSettings::FileSetting::FileSetting(
+GameSettings::FileSetting::FileSetting(
 	const char* psGroup, const char* psName, const char* sValue
 ) :
 	m_Group(psGroup),
@@ -22,7 +22,7 @@ shared::GameSettings::FileSetting::FileSetting(
 	m_ValueString = sValue;
 }
 
-void shared::GameSettings::Load(List* settingTable)
+void GameSettings::Load(List* settingTable)
 {
 	for (auto setting = settingTable->begin(); setting != settingTable->end(); ++setting)
 	{
@@ -30,7 +30,7 @@ void shared::GameSettings::Load(List* settingTable)
 	}
 }
 
-void shared::GameSettings::ClearGroup(const char* group)
+void GameSettings::ClearGroup(const char* group)
 {
 	for (auto it = m_Settings.begin(); it != m_Settings.end();)
 	{
@@ -45,7 +45,7 @@ void shared::GameSettings::ClearGroup(const char* group)
 	}
 }
 
-void shared::GameSettings::Set(const char* group, const char* name, const char* value)
+void GameSettings::Set(const char* group, const char* name, const char* value)
 {
 	FileSetting* pExisting = Get(group, name);
 
@@ -72,7 +72,7 @@ void shared::GameSettings::Set(const char* group, const char* name, const char* 
 	}
 }
 
-void shared::GameSettings::Save()
+void GameSettings::Save()
 {
 	// Truncate the file for new data.
 	m_File.close();
@@ -142,7 +142,7 @@ ETokenResponse ParseToken(char cToken)
 	return result;
 }
 
-shared::GameSettings::FileSetting* shared::GameSettings::Get(const char* group, const char* name)
+GameSettings::FileSetting* GameSettings::Get(const char* group, const char* name)
 {
 	for (auto it = m_Settings.begin(); it != m_Settings.end(); ++it)
 	{
@@ -155,7 +155,7 @@ shared::GameSettings::FileSetting* shared::GameSettings::Get(const char* group, 
 	return nullptr;
 }
 
-const shared::GameSettings::FileSetting* shared::GameSettings::Get(const char* group, const char* name) const
+const GameSettings::FileSetting* GameSettings::Get(const char* group, const char* name) const
 {
 	for (auto it = m_Settings.begin(); it != m_Settings.end(); ++it)
 	{
@@ -168,7 +168,7 @@ const shared::GameSettings::FileSetting* shared::GameSettings::Get(const char* g
 	return nullptr;
 }
 
-void shared::GameSettings::LoadFile(const char* filename, bool bCreateIfMissing)
+void GameSettings::LoadFile(const char* filename, bool bCreateIfMissing)
 {
 	m_File.open(filename, std::ios::in | std::ios::out);
 
@@ -273,12 +273,12 @@ void shared::GameSettings::LoadFile(const char* filename, bool bCreateIfMissing)
 	}
 }
 
-shared::GameSettings::~GameSettings()
+GameSettings::~GameSettings()
 {
 	Save();
 }
 
-shared::GameSettings::GameSettings(const char* psFilename, List* defaultSettings)
+GameSettings::GameSettings(const char* psFilename, List* defaultSettings)
 	: m_psFilename(psFilename)
 {
 	if (defaultSettings != nullptr)

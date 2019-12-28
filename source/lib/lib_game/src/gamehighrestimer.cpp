@@ -20,12 +20,12 @@ private:
 
 Timer s_HighResTimer;
 
-double shared::GameHighResTimer::GetElapsed()
+double GameHighResTimer::GetElapsed()
 {
 	return s_HighResTimer.elapsed();
 }
 
-void shared::GameHighResTimer::Reset()
+void GameHighResTimer::Reset()
 {
 	s_HighResTimer.reset();
 }

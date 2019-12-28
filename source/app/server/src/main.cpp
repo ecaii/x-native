@@ -1,13 +1,11 @@
-#include <CrashReporter.h>
-#include <UnitTests.h>
-#include <NetworkSynchronisation.h>
-#include <NetworkManagerDedicatedServer.h>
-#include <NetworkShared.h>
+#include "unittests.h"
+#include "networksynchronisation.h"
+#include "networkmanagerdedicatedserver.h"
+#include "objects\networkactorobject.h"
 
-#include <GameActorNetworkObject.h>
-#include <GameHighResTimer.h>
-#include <GameConsole.h>
-#include <GameSettings.h>
+#include "gamehighrestimer.h"
+#include "gameconsole.h"
+#include "gamesettings.h"
 #include <thread>
 
 GameSettings::List g_ServerSettings =
@@ -66,11 +64,11 @@ int main(int argc, char** argv)
 	GameConsole console(consoleConfig);
 
 #if _DEBUG
-	console.RegisterArgument(CompilerHashU8("-test"), [](int argc, int argi, char** argv)
+	console.RegisterArgument(shared::CompilerHashU8("-test"), [](int argc, int argi, char** argv)
 	{
 	});
 #endif
-	console.RegisterArgument(CompilerHashU8("-run_once"), [](int argc, int argi, char** argv)
+	console.RegisterArgument(shared::CompilerHashU8("-run_once"), [](int argc, int argi, char** argv)
 	{
 		g_ServerProcRunOnce = true;
 	});

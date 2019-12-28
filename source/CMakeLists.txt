@@ -4,6 +4,7 @@ project(XNativeMain)
 # Libraries
 add_subdirectory(lib/lib_common)
 add_subdirectory(lib/lib_game)
+add_subdirectory(lib/lib_net)
 
 # Applications
 add_subdirectory(app/client-headless)

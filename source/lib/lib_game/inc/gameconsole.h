@@ -2,56 +2,53 @@
 #include "hash.h"
 #include <unordered_map>
 
-namespace shared
+class IConsoleDevice;
+
+class GameConsole
 {
-	class IConsoleDevice;
+public:
+	typedef void(*ArgumentFunction)(int, int, char**);
 
-	class GameConsole
+	struct ConsoleConfiguration
 	{
-	public:
-		typedef void(*ArgumentFunction)(int, int, char**);
+		ConsoleConfiguration() :
+			createNativeWindow(false),
+			acceptInput(false),
+			bindKillSignal(false)
+		{ }
 
-		struct ConsoleConfiguration
-		{
-			ConsoleConfiguration() :
-				createNativeWindow(false),
-				acceptInput(false),
-				bindKillSignal(false)
-			{ }
-
-			bool createNativeWindow;
-			bool acceptInput;
-			bool bindKillSignal;
-		};
-
-		GameConsole(const ConsoleConfiguration& config);
-
-		//
-		// Core
-		//
-		void Initialize(int argc, char** argv);
-		void Shutdown();
-		bool HasKillSignal() const;
-
-		//
-		// Helpers
-		//
-		void Pause();
-
-		//
-		// Arguments
-		//
-		void RegisterArgument(const CompilerHashU8& hash, ArgumentFunction fn)
-		{
-			m_ArgumentFunctions[hash.GetValue()] = fn;
-		}
-
-		void ExecuteArgument(const char* argument, int argi, int argc, char** argv);
-
-	protected:
-		IConsoleDevice*      m_pDevice;
-		ConsoleConfiguration m_Config;
-
-		std::unordered_map<CompilerHashU8::Value, ArgumentFunction> m_ArgumentFunctions;
+		bool createNativeWindow;
+		bool acceptInput;
+		bool bindKillSignal;
 	};
-}
+
+	GameConsole(const ConsoleConfiguration& config);
+
+	//
+	// Core
+	//
+	void Initialize(int argc, char** argv);
+	void Shutdown();
+	bool HasKillSignal() const;
+
+	//
+	// Helpers
+	//
+	void Pause();
+
+	//
+	// Arguments
+	//
+	void RegisterArgument(const shared::CompilerHashU8& hash, ArgumentFunction fn)
+	{
+		m_ArgumentFunctions[hash.GetValue()] = fn;
+	}
+
+	void ExecuteArgument(const char* argument, int argi, int argc, char** argv);
+
+protected:
+	IConsoleDevice*      m_pDevice;
+	ConsoleConfiguration m_Config;
+
+	std::unordered_map<shared::CompilerHashU8::Value, ArgumentFunction> m_ArgumentFunctions;
+};

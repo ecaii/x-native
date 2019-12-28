@@ -8,11 +8,13 @@ set(lib_common_headers
 	"inc/constants"
 	"inc/logging"
 	"inc/libdummy"
+	"inc/unittests"
 )
 
 set(lib_common_sources
 	"src/logging"
 	"src/libdummy"
+	"src/unittests"
 )
 
 add_library(lib_common "${lib_common_sources}" "${lib_common_headers}")

@@ -4,7 +4,7 @@
 #include "assert.h"
 #include <Windows.h>
 
-bool shared::ConsoleDeviceWindows::m_KillSignal = false;
+bool ConsoleDeviceWindows::m_KillSignal = false;
 
 BOOL WINAPI ConsoleHandler(DWORD winEvent)
 {
@@ -15,7 +15,7 @@ BOOL WINAPI ConsoleHandler(DWORD winEvent)
 	case CTRL_CLOSE_EVENT:
 	case CTRL_LOGOFF_EVENT:
 	case CTRL_SHUTDOWN_EVENT:
-		shared::ConsoleDeviceWindows::m_KillSignal = true;
+		ConsoleDeviceWindows::m_KillSignal = true;
 		return TRUE;
 	default:
 		break;
@@ -24,7 +24,7 @@ BOOL WINAPI ConsoleHandler(DWORD winEvent)
 	return FALSE;
 }
 
-void shared::ConsoleDeviceWindows::BindKillSignal()
+void ConsoleDeviceWindows::BindKillSignal()
 {
 	if (SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleHandler, TRUE) == FALSE)
 	{
@@ -32,7 +32,7 @@ void shared::ConsoleDeviceWindows::BindKillSignal()
 	}
 }
 
-void shared::ConsoleDeviceWindows::CreateConsoleWindow()
+void ConsoleDeviceWindows::CreateConsoleWindow()
 {
 	// Bind a console to the process if the bCreateConsole
 	// signal isn't false.
@@ -40,7 +40,7 @@ void shared::ConsoleDeviceWindows::CreateConsoleWindow()
 	AttachConsole(GetCurrentProcessId());
 }
 
-void shared::ConsoleDeviceWindows::DestroyConsoleWindow()
+void ConsoleDeviceWindows::DestroyConsoleWindow()
 {
 	assert(0, "needs implementation");
 }

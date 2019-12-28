@@ -3,7 +3,7 @@
 #include "consoledevices\consoledevice.h"
 #include "consoledevices\consoledevicewindows.h"
 
-shared::GameConsole::GameConsole(const ConsoleConfiguration& config) :
+GameConsole::GameConsole(const ConsoleConfiguration& config) :
 	m_Config(config),
 	m_pDevice(nullptr)
 {
@@ -16,9 +16,9 @@ shared::GameConsole::GameConsole(const ConsoleConfiguration& config) :
 #endif
 }
 
-void shared::GameConsole::ExecuteArgument(const char* argument, int argi, int argc, char** argv)
+void GameConsole::ExecuteArgument(const char* argument, int argi, int argc, char** argv)
 {
-	const CompilerHashU8 hash = CompilerHashU8(argument);
+	const shared::CompilerHashU8 hash = shared::CompilerHashU8(argument);
 	if (m_ArgumentFunctions.find(hash.GetValue()) != m_ArgumentFunctions.end())
 	{
 		m_ArgumentFunctions[hash.GetValue()](argi, argc, argv);
@@ -29,12 +29,12 @@ void shared::GameConsole::ExecuteArgument(const char* argument, int argi, int ar
 	}
 }
 
-bool shared::GameConsole::HasKillSignal() const
+bool GameConsole::HasKillSignal() const
 {
 	return m_pDevice->HasKillSignal();
 }
 
-void shared::GameConsole::Pause()
+void GameConsole::Pause()
 {
 	// Do not pause if a kill signal is processed, kill means KILL >:(
 	if (!HasKillSignal())
@@ -44,7 +44,7 @@ void shared::GameConsole::Pause()
 	}
 }
 
-void shared::GameConsole::Initialize(int argc, char** argv)
+void GameConsole::Initialize(int argc, char** argv)
 {
 	if (argc > 1)
 	{
@@ -64,7 +64,7 @@ void shared::GameConsole::Initialize(int argc, char** argv)
 	}
 }
 
-void shared::GameConsole::Shutdown()
+void GameConsole::Shutdown()
 {
 	if (m_Config.createNativeWindow)
 	{
