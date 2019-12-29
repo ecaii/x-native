@@ -62,13 +62,6 @@ public:
 	void       Send(const NetworkSynchronisation& sync);
 
 protected:
-	//enum NetworkConnectionType
-	//{
-	//	CLIENT,
-	//	SERVER
-	//};
-
-	// NetworkConnectionType       m_ConnectionType;
 	NetworkConnectionIdentifier m_ID;
 	void*                       m_Socket;
 	bool                        m_OwnSocket;

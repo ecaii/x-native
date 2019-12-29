@@ -11,7 +11,7 @@ public:
 	{
 	}
 
-	virtual void              Synchronise(NetworkSynchronisation& sync) = 0;
+	virtual void                      Synchronise(NetworkSynchronisation& sync) = 0;
 	const shared::CompilerHashU8&     GetName() const { return m_Name; }
 
 protected:
