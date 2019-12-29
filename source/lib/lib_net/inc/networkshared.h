@@ -17,9 +17,9 @@
 #define NETWORK_DEFAULT_PORT             27015
 
 //# Global network object identifiers
-enum GameNetworkObjectIdentifiers
+enum NetworkObjectIdentifiers
 {
-	GAME_NETWORK_OBJECT_ID_NULL,
-	GAME_NETWORK_OBJECT_ID_ACTOR,
-	GAME_NETWORK_OBJECT_ID_WORLD_ITEM,
+	NETWORK_OBJECT_ID_NULL,
+	NETWORK_OBJECT_ID_ACTOR,
+	NETWORK_OBJECT_ID_WORLD_ITEM,
 };

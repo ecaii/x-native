@@ -2,8 +2,8 @@
 #include "networkobject.h"
 #include "networkshared.h"
 
-class GameActorNetworkObject : public NetworkObject
+class NetworkActorObject : public NetworkObject
 {
 public:
-	NETWORK_OBJECT_MANIFEST(GameActorNetworkObject, GAME_NETWORK_OBJECT_ID_ACTOR);
+	NETWORK_OBJECT_MANIFEST(NetworkActorObject, NETWORK_OBJECT_ID_ACTOR);
 };

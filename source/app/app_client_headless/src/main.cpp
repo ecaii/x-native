@@ -24,7 +24,7 @@ void GameClient::Initialize()
 	config.synchronisationMaxSize = NETWORK_SYNCHRONISATION_MAX_SIZE;
 
 	// Register network objects
-	NetworkObject::RegisterNetworkObjectManifest<GameActorNetworkObject>(GAME_NETWORK_OBJECT_ID_ACTOR, NETWORK_MAX_ACTORS);
+	NetworkObject::RegisterNetworkObjectManifest<NetworkActorObject>(NETWORK_OBJECT_ID_ACTOR, NETWORK_MAX_ACTORS);
 
 	// Send over the config
 	NetworkManagerClient::Initialize(config);
