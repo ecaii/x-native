@@ -2,6 +2,43 @@
 #include "gamejobsystem.h"
 #include "gamehighrestimer.h"
 
+#include <enet\enet.h>
+
+void NetworkManager::Initialize(const NetworkManagerConfiguration& config)
+{
+	if (config.synchronisationMaxSize == 0) {
+		assert_crash(0, "config.synchronisationMaxSize == 0");
+		return;
+	}
+
+	if (enet_initialize() != 0) {
+		assert_crash(0, "enet.initialize() failed");
+		return;
+	}
+
+	m_pConnectionLayer = CreateConnectionLayer(this);
+
+	m_ManagerState = ManagerState::READY;
+	m_pSynchronisation = new NetworkSynchronisation(config.synchronisationMaxSize);
+
+	NetworkObject::InitializeGlobalManifest();
+}
+
+void NetworkManager::Shutdown()
+{
+	// Kill all connections before deinitializing enet, nvmp legacy did this and it seemed to work
+	m_aConnections.clear();
+
+	// Destroy our connection layer
+	DestroyConnectionLayer();
+
+	enet_deinitialize();
+
+	m_ManagerState = ManagerState::INACTIVE;
+	delete m_pSynchronisation;
+	m_pSynchronisation = nullptr;
+}
+
 void NetworkManager::RunJobs()
 {
 	GameJobSystem::GetInstance().Start(shared::CompilerHashU8("NetworkObjectJobUpdate"));
@@ -67,25 +104,4 @@ void NetworkManager::Synchronise()
 
 void NetworkManager::SynchroniseIn()
 {
-}
-
-void NetworkManager::Initialize(const NetworkManagerConfiguration& config)
-{
-	if (config.synchronisationMaxSize == 0) {
-		assert_crash(0, "config.synchronisationMaxSize == 0");
-		return;
-	}
-
-	m_pSynchronisation = new NetworkSynchronisation(config.synchronisationMaxSize);
-
-	NetworkObject::InitializeGlobalManifest();
-
-	m_ManagerState = ManagerState::READY;
-}
-
-void NetworkManager::Shutdown()
-{
-	delete m_pSynchronisation;
-	m_pSynchronisation = nullptr;
-	m_ManagerState = ManagerState::INACTIVE;
 }

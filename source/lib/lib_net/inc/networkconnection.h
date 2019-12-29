@@ -44,23 +44,16 @@ public:
 	{
 	}
 
-	~NetworkConnection()
-	{
-		if (IsConnected())
-		{
-			DisconnectSocket();
-		}
-	}
+	virtual ~NetworkConnection();
 
-	bool       IsConnected()       const;
 	bool       IsClient()          const { return  m_ID.IsClient(); }
 	bool       IsDedicatedServer() const { return !m_ID.IsClient(); }
 
 	NetworkConnectionIdentifier GetID() const { return m_ID; }
 
-	void       EstablishSocket(const char* hostname, uint16_t port);
-	void       UseSocket(void*);
-	void       DisconnectSocket();
+	virtual void       UseSocket(void*)          { assert(0, "do not call base"); }
+	virtual void       DisconnectSocket()        { assert(0, "do not call base"); }
+	virtual bool       IsConnected()       const { assert(0, "do not call base"); return false; }
 
 	//
 	//  Receive and Send use byte operations on the synchronisation buffer to inflate and deflate the contents to the buffers

@@ -23,6 +23,8 @@ public:
 	virtual void Initialize(const NetworkManagerConfiguration& config);
 	virtual void Shutdown();
 
+	virtual NetworkConnectionLayer* CreateConnectionLayer(NetworkManager* pNetworkManager) const;
+
 	//
 	// Client Goodies
 	//

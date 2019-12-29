@@ -16,6 +16,10 @@
 #define NETWORK_DEFAULT_HOSTNAME         "localhost"
 #define NETWORK_DEFAULT_PORT             27015
 
+//# Layer configuration
+#define NETWORK_LAYER_MAX_CHANNELS       1
+#define NETWORK_LAYER_TIMEOUT            5000
+
 //# Global network object identifiers
 enum NetworkObjectIdentifiers
 {

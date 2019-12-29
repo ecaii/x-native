@@ -33,26 +33,10 @@ TESTABLE_DEFINE(NetworkConnectionIdentifier, {
 });
 #endif
 
-bool NetworkConnection::IsConnected() const
+NetworkConnection::~NetworkConnection()
 {
-	assert(0, "not implemented!");
-	return m_Socket != nullptr;
-}
-
-void NetworkConnection::DisconnectSocket()
-{
-	assert(0, "not implemented!");
-}
-
-void NetworkConnection::EstablishSocket(const char* hostname, uint16_t port)
-{
-	(void)hostname;
-	(void)port;
-
-	m_OwnSocket = true;
-}
-
-void NetworkConnection::UseSocket(void*)
-{
-	m_OwnSocket = false;
+	if (IsConnected())
+	{
+		DisconnectSocket();
+	}
 }
