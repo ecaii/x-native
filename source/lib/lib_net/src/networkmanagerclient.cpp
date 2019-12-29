@@ -15,6 +15,7 @@ public:
 	virtual void       UseSocket(void* peer)
 	{
 		m_ServerPeer = static_cast<ENetPeer*>(peer);
+		m_Connected = true;
 	}
 
 	virtual void       DisconnectSocket()
@@ -121,11 +122,11 @@ public:
 		{
 			switch (m_LastEvent.type)
 			{
-				case ENET_EVENT_TYPE_CONNECT:
-				{
-					DbgLog("NetworkConnectionLayerClient::Update Connected");
-					break;
-				}
+				//case ENET_EVENT_TYPE_CONNECT:
+				//{
+				//	DbgLog("NetworkConnectionLayerClient::Update Connected");
+				//	break;
+				//}
 				case ENET_EVENT_TYPE_DISCONNECT:
 				{
 					if (std::shared_ptr<NetworkConnection> connection = m_ServerConnection.lock())
@@ -188,17 +189,5 @@ bool NetworkManagerClient::Connect(const char* psHostname, uint16_t port)
 		return true;
 	}
 	
-
-	// std::unique_ptr<NetworkConnection> serverConnection = std::make_unique<NetworkConnection>(NETWORK_CONNECTION_ID_SERVER);
-	// serverConnection->EstablishSocket(psHostname, port);
-
-	// assert_crash(serverConnection->GetID().IsDedicatedServer(), "server connection is not identified as such");
-
-	// if (serverConnection->IsConnected())
-	// {
-	//	m_aConnections[NETWORK_CONNECTION_ID_SERVER] = std::move(serverConnection);
-	//	return true;
-	//}
-
 	return false;
 }
