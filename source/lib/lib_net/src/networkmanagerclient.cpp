@@ -69,7 +69,14 @@ public:
 
 	virtual void Disconnect()
 	{
+		if (std::shared_ptr<NetworkConnection> connection = m_ServerConnection.lock())
+		{
+			DbgLog("NetworkConnectionLayerClient::Update Lost connection");
+			connection->DisconnectSocket();
+		}
+
 		DestroyHost();
+
 		m_ServerConnection.reset();
 	}
 
@@ -96,7 +103,7 @@ public:
 			std::shared_ptr<NetworkConnectionServer> result(new NetworkConnectionServer(NETWORK_CONNECTION_ID_SERVER));
 			result->UseSocket(peer);
 
-			// Soft reference, if the layer loses connection then we need to knock the connection object offline
+			// Soft reference, if the layer loses connection then we knock the connection object offline
 			m_ServerConnection = result;
 
 			return result;
@@ -124,10 +131,10 @@ public:
 			{
 				case ENET_EVENT_TYPE_DISCONNECT:
 				{
-					if (std::shared_ptr<NetworkConnection> connection = m_ServerConnection.lock())
+					if (m_Host)
 					{
 						DbgLog("NetworkConnectionLayerClient::Update Lost connection");
-						connection->DisconnectSocket();
+						Disconnect();
 					}
 					break;
 				}

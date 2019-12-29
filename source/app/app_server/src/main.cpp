@@ -52,10 +52,6 @@ int main(int argc, char** argv)
 {
 	GameHighResTimer::Reset();
 
-#if USE_CRASH_REPORTER && !_DEBUG && _WIN32
-	CCrashReporter reporter("nvmp.server", NVMP_VERSION_BUILD);
-#endif
-
 	GameConsole::ConsoleConfiguration consoleConfig;
 	consoleConfig.createNativeWindow = false;
 	consoleConfig.acceptInput = true;

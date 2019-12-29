@@ -91,17 +91,29 @@ void NetworkManager::Synchronise()
 	// For every bit, check if we need to create or delete the index
 
 	// Synchronise all objects to all connections
-	for (auto&& conpair : m_aConnections)
+	for (auto&& conpair = m_aConnections.begin(); conpair != m_aConnections.end();)
 	{
-		NetworkConnection* connection = conpair.second.get();
+		NetworkConnection* connection = (*conpair).second.get();
 
-		for (auto&& netpair : m_aObjects)
+		// Check if the connection is still valid, if it's not then fuck it off
+		if (connection->IsConnected())
 		{
-			NetworkObject* object = netpair.second.get();
-			if (object->ShouldSynchronise(*connection))
+			// Sync objects to valid connection
+			for (auto&& netpair : m_aObjects)
 			{
-				object->Synchronise(sync);
+				NetworkObject* object = netpair.second.get();
+				if (object->ShouldSynchronise(*connection))
+				{
+					object->Synchronise(sync);
+				}
 			}
+
+			++conpair;
+		}
+		else
+		{
+			DbgLog("Connection %u is being terminated from list, as it has disconnected at layer", connection->GetID());
+			conpair = m_aConnections.erase(conpair);
 		}
 	}
 }
