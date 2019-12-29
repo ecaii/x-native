@@ -43,6 +43,8 @@ public:
 	{
 		m_ID = id;
 		m_Bits = bits;
+
+		assert_crash(shared::Maths::highestBit(bits) <= _ReservedBits, "not enough reserved bits for this mask");
 	}
 
 	operator uint32_t() const
@@ -55,7 +57,7 @@ public:
 
 	uint32_t GetIdentifier() const
 	{
-		return (m_Bits << GetUniqueIDBitCount()) & m_ID;
+		return (m_Bits << GetUniqueIDBitCount()) | m_ID;
 	}
 
 	UniqueID GetUniqueIdentifier() const

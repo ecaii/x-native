@@ -1,17 +1,16 @@
 #pragma once
 #include "NetworkSynchronisation.h"
 
-// This is a clever bit state so that we can see an identifier, and identify if it is a server. When we synchronise client to server with this ID we just
-// cull the final bit to ensure security, but 
-#define NETWORK_IDENTIFIER_BIT_SERVER   0x40000000
+#define NETWORK_IDENTIFIER_BIT_SERVER   1    // Which bit of the identifier represents this connection belongs to the server
+#define NETWORK_CONNECTION_MAX          32
 
-#define NETWORK_CONNECTION_MAX  32
-#define NETWORK_CONNECTION_ID_INVALID (NetworkConnectionIdentifier)(-1)
+// The invalid ID represented as an impossible connection
+#define NETWORK_CONNECTION_ID_INVALID   (NetworkConnectionIdentifier)(-1)
 
-// The server ID doesn't need any mutation, just the bit set, it's magnifique
-#define NETWORK_CONNECTION_ID_SERVER  (NetworkConnectionIdentifier)(NETWORK_IDENTIFIER_BIT_SERVER)
+// The server ID doesn't need any mutation, just the bit set, it's magnifique - this represents the major dedicated server
+#define NETWORK_CONNECTION_ID_SERVER     NetworkConnectionIdentifier(0, NETWORK_IDENTIFIER_BIT_SERVER)
 
-class NetworkConnectionIdentifier : public NetworkIdentifier<NETWORK_CONNECTION_MAX, 2>
+class NetworkConnectionIdentifier : public NetworkIdentifier<NETWORK_CONNECTION_MAX, 1>
 {
 public:
 	NetworkConnectionIdentifier(uint32_t identifier)
@@ -26,8 +25,8 @@ public:
 
 	TESTABLE_OBJECT(NetworkConnectionIdentifier);
 
-	bool      IsDedicatedServer() const { return (GetIdentifier() & NETWORK_IDENTIFIER_BIT_SERVER) != 0; }
-	bool      IsClient() const { return (GetIdentifier() & NETWORK_IDENTIFIER_BIT_SERVER) == 0; }
+	bool      IsDedicatedServer() const { return IsBitSet(NETWORK_IDENTIFIER_BIT_SERVER); }
+	bool      IsClient() const { return !IsDedicatedServer(); }
 	void      SetIsServer(bool value) { SetStateBit(NETWORK_IDENTIFIER_BIT_SERVER, value); }
 };
 

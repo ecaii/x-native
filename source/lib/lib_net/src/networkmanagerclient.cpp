@@ -181,6 +181,7 @@ bool NetworkManagerClient::Connect(const char* psHostname, uint16_t port)
 	DbgLog("NetworkManagerClient :: Connecting to %s:%u...", psHostname, port);
 	if (std::shared_ptr<NetworkConnection> pNetworkConnection = layer.Connect(psHostname, port))
 	{
+		DbgLog("Server ID is %u<%u> bits = %u", pNetworkConnection->GetID().GetIdentifier(), pNetworkConnection->GetID().GetUniqueIdentifier(), pNetworkConnection->GetID().GetBits());
 		assert(pNetworkConnection->IsConnected(), "connected but not state_connected");
 		assert(pNetworkConnection->GetID().IsDedicatedServer(), "server connection is not identified as such");
 
