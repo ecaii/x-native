@@ -4,6 +4,11 @@
 
 #include <enet\enet.h>
 
+NetworkConnectionLayer::~NetworkConnectionLayer()
+{
+	DestroyHost();
+}
+
 void NetworkManager::Initialize(const NetworkManagerConfiguration& config)
 {
 	if (config.synchronisationMaxSize == 0) {

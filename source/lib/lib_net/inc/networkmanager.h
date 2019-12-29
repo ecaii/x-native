@@ -14,13 +14,14 @@ class NetworkConnectionLayer
 {
 public:
 	NetworkConnectionLayer(NetworkManager* /*pNetworkManager*/) { }
+	virtual ~NetworkConnectionLayer();
 
-	virtual void CreateHost() = 0;
-	virtual void DestroyHost() = 0;
+	virtual void CreateHost() { assert(0, "do not call base"); };
+	virtual void DestroyHost() { assert(0, "do not call base"); }
 
-	// Really only for clients, can be stubbed
-	virtual NetworkConnection* Connect(const char* hostname, uint16_t portname) = 0;
-	
+	virtual NetworkConnection* Connect(const char* /*hostname*/, uint16_t /*portname*/) { assert(0, "not implemented!"); return nullptr; };
+	virtual void               Listen(const char* /*hostname*/, uint16_t /*portname*/)  { assert(0, "not implemented!"); };
+
 	virtual uint32_t GetHostName() = 0;
 	virtual uint16_t GetPortName() = 0;
 };

@@ -3,7 +3,9 @@
 #include "networkshared.h"
 #include <enet\enet.h>
 
+//
 // A connection implementation towards a server
+//
 class NetworkConnectionServer : public NetworkConnection
 {
 public:
@@ -32,7 +34,9 @@ protected:
 	bool      m_Connected;
 };
 
+//
 // A network layer implementation for a client
+//
 class NetworkConnectionLayerClient : public NetworkConnectionLayer
 {
 public:
@@ -62,6 +66,8 @@ public:
 	//
 	virtual NetworkConnection* Connect(const char* hostname, uint16_t portname)
 	{
+		CreateHost();
+
 		enet_address_set_host(&m_Address, hostname);
 		m_Address.port = portname;
 
@@ -127,14 +133,19 @@ bool NetworkManagerClient::Connect(const char* psHostname, uint16_t port)
 	m_aConnections.clear();
 
 	NetworkConnectionLayer& layer = GetConnectionLayer();
-	
-	if (layer.Connect(psHostname, port))
-	{
 
+	// Establish a new connection for the server
+	if (NetworkConnection* pNetworkConnection = layer.Connect(psHostname, port))
+	{
+		assert(pNetworkConnection->IsConnected(), "connected but not state_connected");
+		assert(pNetworkConnection->GetID().IsDedicatedServer(), "server connection is not identified as such");
+
+		// Move the connection onto the connection list for processing
+		m_aConnections[NETWORK_CONNECTION_ID_SERVER] = std::unique_ptr<NetworkConnection>(pNetworkConnection);
+		return true;
 	}
 	
 
-	// Establish a new connection for the server
 	// std::unique_ptr<NetworkConnection> serverConnection = std::make_unique<NetworkConnection>(NETWORK_CONNECTION_ID_SERVER);
 	// serverConnection->EstablishSocket(psHostname, port);
 
@@ -142,7 +153,6 @@ bool NetworkManagerClient::Connect(const char* psHostname, uint16_t port)
 
 	// if (serverConnection->IsConnected())
 	// {
-		// Move the connection onto the connection list for processing
 	//	m_aConnections[NETWORK_CONNECTION_ID_SERVER] = std::move(serverConnection);
 	//	return true;
 	//}

@@ -9,6 +9,9 @@ public:
 	{
 	}
 
+	//
+	// Boilerplate
+	//
 	virtual bool IsDedicatedServer() const {
 		return true;
 	}
@@ -19,4 +22,10 @@ public:
 
 	virtual void Initialize(const NetworkManagerConfiguration& config);
 	virtual void Shutdown();
+
+	virtual NetworkConnectionLayer* CreateConnectionLayer(NetworkManager* pNetworkManager) const;
+
+	//
+	// Server Goodies
+	//
 };
