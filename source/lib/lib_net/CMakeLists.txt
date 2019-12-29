@@ -6,6 +6,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 #
 include_directories(${CMAKE_SOURCE_DIR}/lib/lib_common/inc)
 include_directories(${CMAKE_SOURCE_DIR}/lib/lib_game/inc)
+include_directories(${ENET_INCLUDE_DIRS})
 
 set(lib_net_headers
 	"inc/networksynchronisation"
@@ -38,6 +39,10 @@ add_library(lib_net "${lib_net_sources}" "${lib_net_headers}")
 add_dependencies(lib_net
     lib_common
 	lib_game
+)
+
+target_link_libraries(lib_net
+    "${ENET_LIBRARIES}"
 )
 
 install(

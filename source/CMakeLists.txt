@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.6)
 project(XNativeMain)
 
+# CMake Extensions
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# Packages
+find_package(ENet REQUIRED)
+
 # Pedantic Warnings
 if(MSVC)
     if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
@@ -20,7 +26,6 @@ add_subdirectory(lib/lib_net)
 # Applications
 add_subdirectory(app/app_client_headless)
 add_subdirectory(app/app_server)
-
 
 # Settings
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT app_server)

@@ -8,6 +8,11 @@ programming knowledge to contribute!
 
 ## Compiling and Building
 
+### CMake Dependencies
+Any missing dependencies will require you to download them and build their libraries and point them in the CMake configuration step.
+
+* ENet
+
 Use CMake on the source directory and point your build directory somewhere of choice, no magic needed at the moment - should build in your chosen IDE.
 
 No 64-bit support right now, Fallout: New Vegas is x86 so the projects are aligned to support it. In future it may be possible to target the server to 64-bit specifically, depending on the requirements of lib_net.

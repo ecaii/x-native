@@ -24,12 +24,16 @@ public:
 	void      SetIsServer(bool value) { SetStateBit(NETWORK_IDENTIFIER_BIT_SERVER, value); }
 };
 
+//
+// NetworkConnection is a single connection to a peer, could be a client or a server, it's all the same
+//
 class NetworkConnection
 {
 public:
 	NetworkConnection(NetworkConnectionIdentifier id/* ENETPeer */) :
 		m_ID(id),
-		m_Socket(nullptr)
+		m_Socket(nullptr),
+		m_OwnSocket(false)
 	{
 	}
 
@@ -58,13 +62,14 @@ public:
 	void       Send(const NetworkSynchronisation& sync);
 
 protected:
-	enum NetworkConnectionType
-	{
-		CLIENT,
-		SERVER
-	};
+	//enum NetworkConnectionType
+	//{
+	//	CLIENT,
+	//	SERVER
+	//};
 
-	NetworkConnectionType       m_ConnectionType;
+	// NetworkConnectionType       m_ConnectionType;
 	NetworkConnectionIdentifier m_ID;
 	void*                       m_Socket;
+	bool                        m_OwnSocket;
 };
