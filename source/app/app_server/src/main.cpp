@@ -80,6 +80,7 @@ int main(int argc, char** argv)
 	/// Do UnitTests beforehand
 	///
 	TESTABLE_REGISTER(NetworkSynchronisation);
+	TESTABLE_REGISTER(NetworkConnectionIdentifier);
 
 	if (!TESTABLE_RUN_ALL())
 	{

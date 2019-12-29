@@ -17,57 +17,80 @@ class NetworkSynchronisation;
 class NetworkSynchronisationRead;
 class NetworkSynchronisationWrite;
 
-template <uint32_t _MaxID,
-	uint32_t _ReservedBits>
-	class NetworkIdentifier
+template <
+	uint32_t _MaxID,
+	uint32_t _ReservedBits
+>
+class NetworkIdentifier : public shared::UnitTestable
 {
 public:
 	static_assert(_ReservedBits >= 1, "NetworkIdentifier requires at least 1 bit reserved for local conditional check");
 
 	typedef uint32_t UniqueID;
 
-	constexpr int GetUniqueIDBitCount() const {
-		return NETWORK_BYTE_SIZE * sizeof(UniqueID);
+	static constexpr int GetUniqueIDBitCount()
+	{
+		return (NETWORK_BYTE_SIZE * sizeof(UniqueID)) - _ReservedBits;
 	}
 
-	NetworkIdentifier(uint32_t id)
+	NetworkIdentifier(uint32_t identifier)
+	{
+		m_Bits = (identifier << GetUniqueIDBitCount());
+		m_ID = (identifier && ~(1 << GetUniqueIDBitCount()));
+	}
+
+	NetworkIdentifier(UniqueID id, uint32_t bits)
 	{
 		m_ID = id;
-
-		// Other bits can be reserved for gameplay, but the unique bits need to be within the identifier bounds
-		assert_ctx(UniqueID uid = GetUniqueIdentifier());
-		assert_crash(uid < _MaxID, "id >= _MaxID");
-		todo("need to cull unique identifier bits if over MaxID to ensure no overflow");
+		m_Bits = bits;
 	}
 
-	operator uint32_t() const { return m_ID; }
+	operator uint32_t() const
+	{
+		return GetIdentifier();
+	}
 
-	bool operator==(NetworkIdentifier& b) const { return m_ID == b.m_ID; }
-	bool operator!=(NetworkIdentifier& b) const { return m_ID != b.m_ID; }
+	bool operator==(NetworkIdentifier& b) const { return GetIdentifier() == b.GetIdentifier(); }
+	bool operator!=(NetworkIdentifier& b) const { return GetIdentifier() != b.GetIdentifier(); }
 
-	uint32_t     GetIdentifier()   const { return m_ID; }
-	bool         IsLocal() const { return (GetIdentifier() & NETWORK_IDENTIFIER_BIT_LOCAL) != 0; }
-	void         SetIsLocal(bool value) { SetStateBit(NETWORK_IDENTIFIER_BIT_LOCAL, value); }
+	uint32_t GetIdentifier() const
+	{
+		return (m_Bits << GetUniqueIDBitCount()) & m_ID;
+	}
+
+	UniqueID GetUniqueIdentifier() const
+	{
+		return m_ID;
+	}
+
+	uint32_t GetBits() const
+	{
+		return m_Bits;
+	}
+
+	bool         IsLocal() const                           { return IsBitSet(NETWORK_IDENTIFIER_BIT_LOCAL); }
+	void         SetIsLocal(bool value)                    { SetStateBit(NETWORK_IDENTIFIER_BIT_LOCAL, value); }
 	void         Synchronise(NetworkSynchronisation& sync) { sync.Synchronise(m_ID, NETWORK_IDENTIFIER_SYNCED_BITS); }
 
-	virtual UniqueID GetUniqueIdentifier() const
-	{
-		return (GetIdentifier() & ~(1 << (GetUniqueIDBitCount() - _ReservedBits)));
-	}
-
 protected:
-	void SetStateBit(uint32_t bit, bool value)
+	__forceinline void SetStateBit(uint32_t bit, bool value)
 	{
 		if (value) {
-			m_ID |= bit;
+			m_Bits |= bit;
 		}
 		else {
-			m_ID &= ~(bit);
+			m_Bits &= ~(bit);
 		}
+	}
+
+	__forceinline bool IsBitSet(uint32_t bit) const
+	{
+		return (m_Bits & bit) != 0;
 	}
 
 private:
-	uint32_t m_ID;
+	uint32_t m_Bits : ( _ReservedBits );
+	uint32_t m_ID   : ( GetUniqueIDBitCount() );
 };
 
 class NetworkSynchronisation : public shared::UnitTestable

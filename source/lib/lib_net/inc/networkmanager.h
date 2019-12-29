@@ -3,7 +3,6 @@
 #include "networkobject.h"
 #include "gamejobsystem.h"
 #include <unordered_map>
-class NetworkObject;
 
 class NetworkManager
 {

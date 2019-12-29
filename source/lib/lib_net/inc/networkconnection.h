@@ -14,10 +14,17 @@
 class NetworkConnectionIdentifier : public NetworkIdentifier<NETWORK_CONNECTION_MAX, 2>
 {
 public:
-	NetworkConnectionIdentifier(uint32_t id)
-		: NetworkIdentifier(id)
+	NetworkConnectionIdentifier(uint32_t identifier)
+		: NetworkIdentifier(identifier)
 	{
 	}
+
+	NetworkConnectionIdentifier(UniqueID id, uint32_t bits)
+		: NetworkIdentifier(id, bits)
+	{
+	}
+
+	TESTABLE_OBJECT(NetworkConnectionIdentifier);
 
 	bool      IsDedicatedServer() const { return (GetIdentifier() & NETWORK_IDENTIFIER_BIT_SERVER) != 0; }
 	bool      IsClient() const { return (GetIdentifier() & NETWORK_IDENTIFIER_BIT_SERVER) == 0; }
