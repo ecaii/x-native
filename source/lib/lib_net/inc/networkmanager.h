@@ -14,13 +14,14 @@ class NetworkConnectionLayer
 {
 public:
 	NetworkConnectionLayer(NetworkManager* /*pNetworkManager*/) { }
-	virtual ~NetworkConnectionLayer();
-
+	
 	virtual void CreateHost() { assert(0, "do not call base"); };
 	virtual void DestroyHost() { assert(0, "do not call base"); }
-
-	virtual NetworkConnection* Connect(const char* /*hostname*/, uint16_t /*portname*/) { assert(0, "not implemented!"); return nullptr; };
-	virtual void               Listen(const char* /*hostname*/, uint16_t /*portname*/)  { assert(0, "not implemented!"); };
+	
+	virtual std::shared_ptr<NetworkConnection> Connect(const char* /*hostname*/, uint16_t /*portname*/) { assert(0, "not implemented!"); return nullptr; };
+	virtual void                               Listen(const char* /*hostname*/, uint16_t /*portname*/)  { assert(0, "not implemented!"); };
+	virtual void                               Disconnect() { assert(0, "not implemented!"); };
+	virtual void                               Update() = 0;
 
 	virtual uint32_t GetHostName() = 0;
 	virtual uint16_t GetPortName() = 0;
@@ -77,8 +78,8 @@ public:
 	void         SynchroniseIn();
 
 protected:
-	std::unordered_map<NetworkConnectionIdentifier::UniqueID, std::unique_ptr<NetworkConnection>>  m_aConnections;
-	std::unordered_map<NetworkObjectIdentifier, std::unique_ptr<NetworkObject>>                    m_aObjects;
+	std::unordered_map<NetworkConnectionIdentifier::UniqueID, std::shared_ptr<NetworkConnection>>  m_aConnections;
+	std::unordered_map<NetworkObjectIdentifier, std::shared_ptr<NetworkObject>>                    m_aObjects;
 
 	NetworkSynchronisation&   GetPrimarySynchronisation() { assert_crash(m_pSynchronisation && IsActive(), "get primary synchronisation not safe"); return *m_pSynchronisation; }
 	NetworkConnectionLayer&   GetConnectionLayer()        { assert_crash(m_pConnectionLayer && IsActive(), "get connection layer not safe"); return *m_pConnectionLayer; }

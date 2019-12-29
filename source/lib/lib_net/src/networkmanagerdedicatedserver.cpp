@@ -41,14 +41,14 @@ class NetworkConnectionLayerServer : public NetworkConnectionLayer
 {
 public:
 	NetworkConnectionLayerServer(NetworkManager* pNetworkManager) :
-		NetworkConnectionLayer(pNetworkManager) { }
+		NetworkConnectionLayer(pNetworkManager), m_Host(nullptr) { }
 
 	//
 	// Host
 	//
 	virtual void CreateHost()
 	{
-		m_Host = enet_host_create(nullptr, NETWORK_CONNECTION_MAX, ENET_PROTOCOL_MAXIMUM_CHANNEL_COUNT, 0, 0);
+		m_Host = enet_host_create(&m_Address, NETWORK_CONNECTION_MAX, ENET_PROTOCOL_MAXIMUM_CHANNEL_COUNT, 0, 0);
 		if (!m_Host) {
 			assert_crash(0, "no enet host created");
 			return;
@@ -59,6 +59,11 @@ public:
 	{
 		enet_host_destroy(m_Host);
 		m_Host = nullptr;
+	}
+
+	virtual void Disconnect()
+	{
+		DestroyHost();
 	}
 
 	//
@@ -90,6 +95,13 @@ public:
 		return m_Address.port;
 	}
 
+	virtual void Update()
+	{
+		while (m_Host && enet_host_service(m_Host, &m_LastEvent, 0) > 0)
+		{
+		}
+	}
+
 protected:
 	ENetAddress m_Address;
 	ENetHost*   m_Host;
@@ -109,4 +121,14 @@ void NetworkManagerDedicatedServer::Shutdown()
 NetworkConnectionLayer* NetworkManagerDedicatedServer::CreateConnectionLayer(NetworkManager* pNetworkManager) const
 {
 	return new NetworkConnectionLayerServer(pNetworkManager);
+}
+
+void NetworkManagerDedicatedServer::Listen(const char* psHostname, uint16_t port)
+{
+	m_aConnections.clear();
+
+	NetworkConnectionLayer& layer = GetConnectionLayer();
+
+	DbgLog("NetworkManagerDedicatedServer :: Listening on %s:%u", psHostname, port);
+	layer.Listen(psHostname, port);
 }

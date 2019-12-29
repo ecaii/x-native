@@ -28,4 +28,5 @@ public:
 	//
 	// Server Goodies
 	//
+	void Listen(const char* psHostname, uint16_t port);
 };

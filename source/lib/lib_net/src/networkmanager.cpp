@@ -4,11 +4,6 @@
 
 #include <enet\enet.h>
 
-NetworkConnectionLayer::~NetworkConnectionLayer()
-{
-	DestroyHost();
-}
-
 void NetworkManager::Initialize(const NetworkManagerConfiguration& config)
 {
 	if (config.synchronisationMaxSize == 0) {
@@ -65,6 +60,10 @@ void NetworkManager::Update()
 {
 	RunJobs();
 	Synchronise();
+
+	// Ensure the layer is consistently kept up to date
+	NetworkConnectionLayer& layer = GetConnectionLayer();
+	layer.Update();
 }
 
 void NetworkManager::Synchronise()
