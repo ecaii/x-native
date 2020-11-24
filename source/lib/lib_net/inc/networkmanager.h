@@ -14,7 +14,8 @@ class NetworkConnectionLayer
 {
 public:
 	NetworkConnectionLayer(NetworkManager* /*pNetworkManager*/) { }
-	
+	virtual ~NetworkConnectionLayer() { }
+
 	virtual void CreateHost() { assert(0, "do not call base"); };
 	virtual void DestroyHost() { assert(0, "do not call base"); }
 	

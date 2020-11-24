@@ -252,7 +252,7 @@ NVItemDB::ItemRow* NVItemDB::random(std::string group_id)
 	auto item_it = group_it->second.begin();
 
 	// Advance the iterator.
-	std::uniform_int_distribution<std::mt19937::result_type> itemdist(0, group_it->second.size() - 1);
+	std::uniform_int_distribution<std::mt19937::result_type> itemdist(0, (std::mt19937::result_type)group_it->second.size() - 1);
 	std::advance(item_it, itemdist(s_RNG));
 
 	return &(item_it->second);
@@ -275,7 +275,7 @@ NVItemDB::ItemRow* NVItemDB::random_safe_weapon(bool bResultHasNoAmmo)
 		item_group_map::iterator item_it = group_it->second.begin();
 
 		// Advance the iterator.
-		std::uniform_int_distribution<std::mt19937::result_type> itemdist(0, group_it->second.size() - 1);
+		std::uniform_int_distribution<std::mt19937::result_type> itemdist(0, (std::mt19937::result_type)group_it->second.size() - 1);
 		std::advance(item_it, itemdist(s_RNG));
 
 		result_it = item_it;

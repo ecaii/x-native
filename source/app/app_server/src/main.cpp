@@ -91,7 +91,7 @@ int main(int argc, char** argv)
 	GameSettings settings("server.cfg", &g_ServerSettings);
 
 	const char*    bind_hostname = settings.Get("Network", "Hostname")->GetString();
-	const uint16_t bind_port = settings.Get("Network", "Port")->GetNumericAs<std::uint16_t>();
+	const uint16_t bind_port = settings.Get("Network", "Port")->GetNumericAs<uint16_t>();
 
 	// Accept any hostname if asterisk is passed.
 	if (strlen(bind_hostname) == 0 || bind_hostname[0] == '*')

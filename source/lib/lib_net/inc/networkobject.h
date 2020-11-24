@@ -129,6 +129,7 @@ public:
 
 	NetworkObject();
 	explicit NetworkObject(NetworkObjectIdentifier id, NetworkConnectionIdentifier owner);
+	virtual ~NetworkObject() { }
 
 	virtual uint32_t GetType() const = 0;
 
