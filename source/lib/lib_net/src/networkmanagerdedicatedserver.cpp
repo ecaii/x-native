@@ -9,22 +9,25 @@
 class NetworkConnectionClient : public NetworkConnection
 {
 public:
-	NetworkConnectionClient(NetworkConnectionIdentifier id) :
-		NetworkConnection(id), m_ClientPeer(nullptr), m_Connected(false) { }
+	NetworkConnectionClient(NetworkConnectionIdentifier id)
+		: NetworkConnection(id)
+		, m_ClientPeer(nullptr)
+		, m_Connected(false)
+	{ }
 
-	virtual void       UseSocket(void* peer)
+	virtual void UseSocket(void* peer)
 	{
 		m_ClientPeer = static_cast<ENetPeer*>(peer);
 	}
 
-	virtual void       DisconnectSocket()
+	virtual void DisconnectSocket()
 	{
 		enet_peer_reset(m_ClientPeer);
 		m_ClientPeer = nullptr;
 		m_Connected = false;
 	}
 
-	virtual bool       IsConnected()       const
+	virtual bool IsConnected() const
 	{
 		return m_Connected;
 	}
@@ -40,8 +43,12 @@ protected:
 class NetworkConnectionLayerServer : public NetworkConnectionLayer
 {
 public:
-	NetworkConnectionLayerServer(NetworkManager* pNetworkManager) :
-		NetworkConnectionLayer(pNetworkManager), m_Host(nullptr) { }
+	NetworkConnectionLayerServer(NetworkManager* pNetworkManager)
+		: NetworkConnectionLayer(pNetworkManager)
+		, m_Host(nullptr)
+		, m_Address()
+		, m_LastEvent()
+	{ }
 
 	//
 	// Host
@@ -128,7 +135,7 @@ void NetworkManagerDedicatedServer::Listen(const char* psHostname, uint16_t port
 	m_aConnections.clear();
 
 	NetworkConnectionLayer& layer = GetConnectionLayer();
+	layer.Listen(psHostname, port);
 
 	DbgLog("NetworkManagerDedicatedServer :: Listening on %s:%u", psHostname, port);
-	layer.Listen(psHostname, port);
 }

@@ -16,6 +16,8 @@ void NetworkManager::Initialize(const NetworkManagerConfiguration& config)
 		return;
 	}
 
+	GameJobSystem::GetInstance().Initialize();
+
 	m_pConnectionLayer = CreateConnectionLayer(this);
 
 	m_ManagerState = ManagerState::READY;
@@ -37,6 +39,8 @@ void NetworkManager::Shutdown()
 	m_ManagerState = ManagerState::INACTIVE;
 	delete m_pSynchronisation;
 	m_pSynchronisation = nullptr;
+
+	GameJobSystem::GetInstance().Shutdown();
 }
 
 void NetworkManager::RunJobs()
@@ -49,7 +53,7 @@ void NetworkManager::RunJobs()
 		if (object->ShouldUpdate())
 		{
 			object->PreJobUpdate();
-			GameJobSystem::GetInstance().Execute([object] { object->MainJobUpdate(); });
+			GameJobSystem::GetInstance().ExecuteOrQueue([object] { object->MainJobUpdate(); });
 		}
 	}
 

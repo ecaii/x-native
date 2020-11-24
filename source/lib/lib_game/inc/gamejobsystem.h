@@ -6,6 +6,8 @@
 class GameJobSystem
 {
 public:
+	static const uint32_t MaxJobsPerUpdate = 128;
+
 	// Fixed size very simple thread safe ring buffer
 	template <typename T, uint32_t capacity>
 	class ThreadSafeRingBuffer
@@ -18,11 +20,11 @@ public:
 		{
 			bool result = false;
 			m_lock.lock();
-			uint32_t next = (m_head + 1) % m_capacity;
+			uint32_t next = (m_head + 1) % capacity;
 			if (next != m_tail)
 			{
 				m_data[m_head] = item;
-				head = next;
+				m_head = next;
 				result = true;
 			}
 			m_lock.unlock();
@@ -38,8 +40,8 @@ public:
 			m_lock.lock();
 			if (m_tail != m_head)
 			{
-				item = m_data[tail];
-				m_tail = (m_tail + 1) % m_capacity;
+				item = m_data[m_tail];
+				m_tail = (m_tail + 1) % capacity;
 				result = true;
 			}
 			m_lock.unlock();
@@ -55,13 +57,35 @@ public:
 
 	typedef std::function<void()>    JobClosure;
 
+	void   Initialize();
+	void   Shutdown();
 	void   Start(const shared::CompilerHashU8& name);
-	void   Execute(const JobClosure& closure);
+	void   ExecuteOrQueue(const JobClosure& closure);
 	void   Wait();
 	bool   IsBusy();
+
+	__forceinline void  Poll();
 
 	static GameJobSystem& GetInstance();
 
 protected:
-	ThreadSafeRingBuffer<JobClosure, 3> m_JobPool;
+	struct JobDispatchArgs
+	{
+		uint32_t jobIndex;
+		uint32_t groupIndex;
+	};
+
+	ThreadSafeRingBuffer<JobClosure, MaxJobsPerUpdate> m_JobPool;
+	
+	std::condition_variable m_WakeCondition;
+	std::mutex m_WakeMutex;
+	std::atomic<uint64_t> m_FinishedLabels;
+	
+	uint32_t  m_CurrentLabel = 0;
+	uint32_t  m_NumCores     = 0;
+	uint32_t  m_NumThreads   = 0;
+
+	bool      m_ShuttingDown = false;
+
+	void   Dispatch(uint32_t jobCount, uint32_t groupSize, const std::function<void(JobDispatchArgs)>& job);
 };

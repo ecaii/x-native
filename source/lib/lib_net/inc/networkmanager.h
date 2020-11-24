@@ -19,8 +19,8 @@ public:
 	virtual void CreateHost() { assert(0, "do not call base"); };
 	virtual void DestroyHost() { assert(0, "do not call base"); }
 	
-	virtual std::shared_ptr<NetworkConnection> Connect(const char* /*hostname*/, uint16_t /*portname*/) { assert(0, "not implemented!"); return nullptr; };
-	virtual void                               Listen(const char* /*hostname*/, uint16_t /*portname*/)  { assert(0, "not implemented!"); };
+	virtual std::shared_ptr<NetworkConnection> Connect(const char* /*hostname*/, uint16_t /*portname*/) { assert(0, "Connect() not implemented!"); return nullptr; };
+	virtual void                               Listen(const char* /*hostname*/, uint16_t /*portname*/)  { assert(0, "Listen() not implemented!"); };
 	virtual void                               Disconnect() { assert(0, "not implemented!"); };
 	virtual void                               Update() = 0;
 
